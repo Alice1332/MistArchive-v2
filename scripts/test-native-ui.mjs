@@ -9,7 +9,7 @@ import { setTimeout as pause } from 'node:timers/promises';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const hdc = process.env.MIST_HDC || 'F:/DevEco Studio/sdk/default/openharmony/toolchains/hdc.exe';
 const device = process.env.MIST_DEVICE || '127.0.0.1:5555';
-const bundle = process.env.MIST_BUNDLE || 'com.example.mistarchive';
+const bundle = process.env.MIST_BUNDLE || 'com.example.mistarchive.v2';
 const evidence = path.join(root, 'evidence');
 const shots = path.join(evidence, 'screenshots');
 const layoutPath = path.join(evidence, 'native-layout.json');
@@ -129,6 +129,8 @@ try {
   const locked = layout().find(n => n.a.text === '旧图书馆  未解锁');
   if (!locked || locked.a.enabled !== 'false') throw new Error('Locked scene is not disabled');
   pass('N02', '锁定场景边界', '旧图书馆按钮在初始状态不可执行');
+  if (layout().some(n => String(n.a.text || '').includes('你接下委托：'))) throw new Error('未调查就泄露了事件结果');
+  pass('N08', '第二版调查结果展示边界', '初始事件卡未展示调查结果');
 
   await initialInvestigation('cooperate');
   await tap('进度');

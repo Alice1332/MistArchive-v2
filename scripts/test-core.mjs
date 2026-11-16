@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const out=path.join(root,'.test-build');fs.mkdirSync(out,{recursive:true});
 const base=path.join(root,'entry/src/main/ets');
-const files=['model/GameModel','data/CaseData','domain/GameEngine','domain/SaveCodec','data/SaveRepository','testing/CoreCases'];
+const files=['model/GameModel','data/CaseData','domain/GameEngine','domain/SaveCodec','domain/InvestigationSession','data/SaveRepository','testing/CoreCases'];
 for(const f of files){
   const input=fs.readFileSync(path.join(base,f+'.ets'),'utf8').replace(/^import\s+\{[^}]+\}\s+from\s+['"][^'"]*GameModel['"];?\s*$/gm,'');
   let code=stripTypeScriptTypes(input,{mode:'transform'});

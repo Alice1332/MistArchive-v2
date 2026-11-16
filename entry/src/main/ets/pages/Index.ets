@@ -2,6 +2,7 @@ import { common } from '@kit.AbilityKit';
 import { GameState, EventDef, SceneDef, ClueDef, Transition } from '../model/GameModel';
 import { GameEngine, freshState, cloneState } from '../domain/GameEngine';
 import { SaveRepository } from '../data/SaveRepository';
+import { InvestigationSession } from '../domain/InvestigationSession';
 import { PreferencesStore } from '../data/PreferencesStore';
 import { SCENES, EVENTS, CLUES } from '../data/CaseData';
 
@@ -16,45 +17,44 @@ struct Index {
   @State selectedClue: string = '';
   @State pulse: number = 1;
   private engine: GameEngine = new GameEngine();
-  private repository: SaveRepository | undefined = undefined;
+  private session: InvestigationSession | undefined = undefined;
 
   aboutToAppear(): void { this.openArchive(); }
+  getSession(): InvestigationSession {
+    if (this.session === undefined) {
+      const context = this.getUIContext().getHostContext();
+      if (context === undefined) throw new Error('无法取得应用上下文');
+      this.session = new InvestigationSession(new SaveRepository(new PreferencesStore(context as common.UIAbilityContext)));
+    }
+    return this.session;
+  }
+  syncSession(): void {
+    if (this.session === undefined) return;
+    this.game = cloneState(this.session.state); this.ready = this.session.ready;
+    this.busy = this.session.busy; this.message = this.session.message;
+  }
   async openArchive(): Promise<void> {
     if (this.ready) return;
     this.busy = true;
-    try {
-      if (this.repository === undefined) {
-        this.repository = new SaveRepository(new PreferencesStore(getContext(this) as common.UIAbilityContext));
-      }
-      const loaded = await this.repository.load();
-      this.game = loaded.state; this.message = loaded.message; this.ready = true;
-    } catch (_) { this.message = '读取失败或存档损坏。可重试读取；确认重开会替换当前主档。'; }
-    finally { this.busy = false; }
+    try { await this.getSession().open(); this.syncSession(); }
+    catch (_) { this.message = '无法初始化本地存储，请重试。'; this.busy = false; }
   }
   async commit(result: Transition): Promise<void> {
     if (this.busy || !this.ready) return;
-    if (!result.ok) { this.message = result.message; return; }
-    this.busy = true;
-    try {
-      if (this.repository === undefined) throw new Error('存储未初始化');
-      await this.repository.save(result.state);
-      this.game = cloneState(result.state); this.message = result.message;
-      animateTo({ duration: 180, curve: Curve.EaseOut }, () => { this.pulse = this.pulse === 1 ? 0.985 : 1; });
-    } catch (_) { this.message = '保存失败，本次操作未推进，请检查空间后重试。'; }
-    finally { this.busy = false; }
+    const pending = this.getSession().commit(result); this.syncSession();
+    const saved = await pending; this.syncSession();
+    if (saved) this.getUIContext().animateTo({ duration: 180, curve: Curve.EaseOut }, () => { this.pulse = this.pulse === 1 ? 0.985 : 1; });
   }
   async restart(): Promise<void> {
     if (this.busy) return;
-    this.busy = true;
     try {
-      if (this.repository === undefined) this.repository = new SaveRepository(new PreferencesStore(getContext(this) as common.UIAbilityContext));
-      const state = freshState(); await this.repository.save(state);
-      this.game = state; this.ready = true; this.tab = 0; this.selectedClue = ''; this.message = '已开启新一轮调查。';
-    } catch (_) { this.message = '重开未能保存，请重试。'; }
-    finally { this.busy = false; }
+      const pending = this.getSession().restart(); this.syncSession();
+      const saved = await pending; this.syncSession();
+      if (saved) { this.tab = 0; this.selectedClue = ''; }
+    } catch (_) { this.message = '重开未能保存，请重试。'; this.busy = false; }
   }
   confirmRestart(): void {
-    AlertDialog.show({ title: '重开调查', message: '将替换本轮进度，上一份有效存档保留为备份。是否继续？',
+    this.getUIContext().showAlertDialog({ title: '重开调查', message: '将替换本轮进度，上一份有效存档保留为备份。是否继续？',
       primaryButton: { value: '取消', action: () => {} },
       secondaryButton: { value: '确认重开', action: () => { this.restart(); } } });
   }

@@ -2,6 +2,7 @@ import { GameState, TextStore, SaveEnvelope } from '../model/GameModel';
 import { GameEngine, freshState } from '../domain/GameEngine';
 import { encode, decode, checksum } from '../domain/SaveCodec';
 import { SaveRepository, CURRENT, BACKUP } from '../data/SaveRepository';
+import { InvestigationSession } from '../domain/InvestigationSession';
 import { EVENTS } from '../data/CaseData';
 export interface CaseDef { id: string; category: string; name: string; run: () => Promise<void>; }
 function check(condition: boolean, message: string = '断言失败'): void { if (!condition) throw new Error(message); }
@@ -19,9 +20,9 @@ export function play(cooperation: string = 'cooperate', suspect: string = 'trans
   return s;
 }
 export class MemoryStore implements TextStore {
-  current: string = ''; backup: string = ''; failFlush: boolean = false; failRead: boolean = false;
+  current: string = ''; backup: string = ''; failFlush: boolean = false; failRead: boolean = false; failWrite: boolean = false;
   async read(key: string): Promise<string> { if (this.failRead) throw new Error('模拟读失败'); return key === CURRENT ? this.current : this.backup; }
-  async write(key: string, value: string): Promise<void> { if (key === CURRENT) this.current = value; else this.backup = value; }
+  async write(key: string, value: string): Promise<void> { if (this.failWrite) throw new Error('模拟写失败'); if (key === CURRENT) this.current = value; else this.backup = value; }
   async flush(): Promise<void> { if (this.failFlush) throw new Error('模拟空间不足'); }
 }
 export const CASES: CaseDef[] = [
@@ -51,6 +52,11 @@ export const CASES: CaseDef[] = [
   { id: 'T24', category: '边界', name: '被篡改的派生结局不能恢复', run: async () => { const s = play('cooperate', 'theft'); s.ending = 'truth'; rejectsDecode(encode(s)); } },
   { id: 'V201', category: '边界', name: '未解锁事件只显示原因，不泄露结果', run: async () => { const e = new GameEngine(); const item = EVENTS[1]; equal(e.eventDescription(freshState(), item), e.reason(freshState(), item)); check(e.eventDescription(freshState(), item) !== item.text); } },
   { id: 'V202', category: '正常', name: '已解锁未调查时仍隐藏结果，完成后显示', run: async () => { const e = new GameEngine(); const item = EVENTS[0]; const s = freshState(); check(e.eventDescription(s, item) !== item.text); equal(e.eventDescription(e.investigate(s, item.id).state, item), item.text); } },
-  { id: 'V203', category: '边界', name: '询问方式选择前不提前揭示分支后果', run: async () => { const e = new GameEngine(); const s = e.move(play('cooperate', 'transfer', true, 5), 'library').state; const item = EVENTS[5]; check(e.reason(s, item) === ''); check(e.eventDescription(s, item) !== item.text); check(!e.eventDescription(s, item).includes('回执')); } }
+  { id: 'V203', category: '边界', name: '询问方式选择前不提前揭示分支后果', run: async () => { const e = new GameEngine(); const s = e.move(play('cooperate', 'transfer', true, 5), 'library').state; const item = EVENTS[5]; check(e.reason(s, item) === ''); check(e.eventDescription(s, item) !== item.text); check(!e.eventDescription(s, item).includes('回执')); } },
+  { id: 'V204', category: '异常', name: '页面会话保存写入失败不发布新状态，重试推进一次', run: async () => { const m = new MemoryStore(); const session = new InvestigationSession(new SaveRepository(m)); await session.open(); const result = new GameEngine().investigate(session.state, 'e01'); m.failWrite = true; check(!await session.commit(result)); check(session.state.events.length === 0 && !session.busy && session.message.includes('保存失败')); m.failWrite = false; check(await session.commit(result)); check(session.state.events.length === 1); } },
+  { id: 'V205', category: '异常', name: '页面会话flush失败保留页面和存储，重试可恢复', run: async () => { const m = new MemoryStore(); const session = new InvestigationSession(new SaveRepository(m)); await session.open(); const result = new GameEngine().investigate(session.state, 'e01'); m.failFlush = true; check(!await session.commit(result)); check(session.state.events.length === 0 && m.current === ''); m.failFlush = false; check(await session.commit(result)); check(decode(m.current).events.length === 1); } },
+  { id: 'V206', category: '边界', name: '保存期间立即再次提交不会重复推进', run: async () => { const session = new InvestigationSession(new SaveRepository(new MemoryStore())); await session.open(); const result = new GameEngine().investigate(session.state, 'e01'); const first = session.commit(result); check(session.busy); check(!await session.commit(result)); check(await first); check(session.state.events.length === 1 && !session.busy); } },
+  { id: 'V207', category: '异常', name: '读取失败后禁止调查，重试成功后可继续', run: async () => { const m = new MemoryStore(); m.failRead = true; const session = new InvestigationSession(new SaveRepository(m)); await session.open(); check(!session.ready && !session.busy); check(!await session.commit(new GameEngine().investigate(session.state, 'e01'))); m.failRead = false; await session.open(); check(session.ready); } },
+  { id: 'V208', category: '异常', name: '重开写入失败保留已有进度，重试成功后归零', run: async () => { const m = new MemoryStore(); const session = new InvestigationSession(new SaveRepository(m)); await session.open(); await session.commit(new GameEngine().investigate(session.state, 'e01')); m.failWrite = true; check(!await session.restart()); check(session.state.events.length === 1); m.failWrite = false; check(await session.restart()); check(session.state.events.length === 0); } }
 
 ];

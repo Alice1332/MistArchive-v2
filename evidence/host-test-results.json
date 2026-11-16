@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-11-16T02:20:23.137Z",
+  "executedAt": "2026-11-16T02:22:08.561Z",
   "runtime": "v24.14.1",
   "scope": "Host Node executes type-erased shared ArkTS domain and repository source; not HarmonyOS compilation or Preferences device evidence",
   "results": [
@@ -8,21 +8,21 @@
       "category": "正常",
       "name": "新调查状态为空且位于门卫室",
       "pass": true,
-      "ms": 0
+      "ms": 1
     },
     {
       "id": "T02",
       "category": "边界",
       "name": "未解锁场景不可进入",
       "pass": true,
-      "ms": 1
+      "ms": 0
     },
     {
       "id": "T03",
       "category": "异常",
       "name": "越级事件和未知事件被拒绝",
       "pass": true,
-      "ms": 0
+      "ms": 1
     },
     {
       "id": "T04",
@@ -43,7 +43,7 @@
       "category": "正常",
       "name": "合作路线取得六条线索并进入真相结局",
       "pass": true,
-      "ms": 0
+      "ms": 1
     },
     {
       "id": "T07",
@@ -85,14 +85,14 @@
       "category": "正常",
       "name": "结束状态可往返恢复",
       "pass": true,
-      "ms": 1
+      "ms": 0
     },
     {
       "id": "T13",
       "category": "异常",
       "name": "损坏JSON和校验值被拒绝",
       "pass": true,
-      "ms": 22
+      "ms": 20
     },
     {
       "id": "T14",
@@ -106,7 +106,7 @@
       "category": "异常",
       "name": "重算校验值也不能伪造线索",
       "pass": true,
-      "ms": 1
+      "ms": 0
     },
     {
       "id": "T16",
@@ -162,7 +162,7 @@
       "category": "边界",
       "name": "独立仓库实例恢复同一存储进度",
       "pass": true,
-      "ms": 0
+      "ms": 1
     },
     {
       "id": "T24",
@@ -189,6 +189,41 @@
       "id": "V203",
       "category": "边界",
       "name": "询问方式选择前不提前揭示分支后果",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "V204",
+      "category": "异常",
+      "name": "页面会话保存写入失败不发布新状态，重试推进一次",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "V205",
+      "category": "异常",
+      "name": "页面会话flush失败保留页面和存储，重试可恢复",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "V206",
+      "category": "边界",
+      "name": "保存期间立即再次提交不会重复推进",
+      "pass": true,
+      "ms": 1
+    },
+    {
+      "id": "V207",
+      "category": "异常",
+      "name": "读取失败后禁止调查，重试成功后可继续",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "V208",
+      "category": "异常",
+      "name": "重开写入失败保留已有进度，重试成功后归零",
       "pass": true,
       "ms": 0
     }
