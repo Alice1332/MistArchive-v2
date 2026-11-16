@@ -1,0 +1,22 @@
+{
+  "bundle": "com.example.mistarchive.v2",
+  "date": "2026-11-16",
+  "devEcoStudio": "26.0.1.290",
+  "sdk": "26.0.1.120 Beta1",
+  "minimumConfiguredApi": 12,
+  "testedEmulator": "Mate 90 Pro / HarmonyOS 7.0.0.120",
+  "hap": "dist/MistArchive-v2-debug-unsigned.hap",
+  "sha256": "b014328b6adef24ed968a862133be6f8647e6e06ab1ed475bd54440c536e18f8",
+  "buildResult": "BUILD SUCCESSFUL in 42 s 896 ms",
+  "coreTestsPassed": 32,
+  "nativeUiPassed": 8,
+  "nativeUiResumedAfterTimeout": true,
+  "remainingWarnings": "3 Preferences API exception-handling warnings and no signing configuration",
+  "notVerified": [
+    "Hypium execution",
+    "API12 device runtime",
+    "physical phone",
+    "native platform storage failure injection",
+    "continuous screen recording"
+  ]
+}

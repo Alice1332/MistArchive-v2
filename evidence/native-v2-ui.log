@@ -1,0 +1,52 @@
+UI 进度
+UI 场景
+PASS N01 原生应用启动与初始状态
+PASS N02 锁定场景边界
+PASS N08 第二版调查结果展示边界
+UI 场景
+UI 开展调查
+UI 开展调查
+UI 开展调查
+UI 开展调查
+UI 旧图书馆  可前往
+UI 开展调查
+UI 合作询问
+UI 开展调查
+UI 器材储藏室  可前往
+UI 开展调查
+UI 进度
+UI 进度
+PASS N03 实际Preferences进程终止恢复
+UI 场景
+UI 开展调查
+UI 旧图书馆  可前往
+UI 开展调查
+UI 校园门卫室  可前往
+UI 判断为管理员转存漏登
+UI 封存调查并查看结局
+UI 进度
+PASS N04 合作路线原生真相结局
+UI 线索
+UI 转存回执
+UI 存档
+UI 重开调查
+UI 取消
+UI 进度
+PASS N05 取消重开不丢进度
+UI 存档
+UI 重开调查
+UI 确认重开
+UI 场景
+UI 开展调查
+UI 开展调查
+UI 开展调查
+UI 开展调查
+UI 旧图书馆  可前往
+UI 开展调查
+UI 直接指责
+UI 开展调查
+UI 器材储藏室  可前往
+UI 开展调查
+UI 开展调查
+UI 旧图书馆  可前往
+Error: spawnSync F:/DevEco Studio/sdk/default/openharmony/toolchains/hdc.exe ETIMEDOUT

@@ -21,7 +21,7 @@ const previous = resumeAccuse ? JSON.parse(fs.readFileSync(path.join(evidence, '
 if (previous) { records.push(...previous.records.filter(r => r.pass)); steps.push(...previous.steps); }
 const session = previous?.startedAt || new Date().toISOString();
 function command(...args) {
-  return execFileSync(hdc, ['-t', device, ...args], { encoding: 'utf8', timeout: 20000, windowsHide: true });
+  return execFileSync(hdc, ['-t', device, ...args], { encoding: 'utf8', timeout: 45000, windowsHide: true });
 }
 function bounds(value) {
   const n = String(value || '').match(/-?\d+/g)?.map(Number);
