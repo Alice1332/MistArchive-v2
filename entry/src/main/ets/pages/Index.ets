@@ -68,7 +68,7 @@ struct Index {
         Text(e.title).fontSize(17).fontWeight(FontWeight.Medium).layoutWeight(1)
         Text(this.game.events.includes(e.id) ? '已完成' : '待调查').fontSize(12).fontColor('#72776D')
       }.width('100%')
-      Text(e.text).fontSize(14).lineHeight(22).fontColor('#60665F').width('100%')
+      Text(this.engine.eventDescription(this.game, e)).fontSize(14).lineHeight(22).fontColor('#60665F').width('100%')
       if (!this.game.events.includes(e.id)) {
         if (e.id === 'e06') {
           Button('合作询问').onClick(() => { this.commit(this.engine.investigate(this.game, e.id, 'cooperate')); })

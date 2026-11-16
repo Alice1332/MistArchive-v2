@@ -48,5 +48,9 @@ export const CASES: CaseDef[] = [
   { id: 'T21', category: '异常', name: 'flush失败回滚当前缓存', run: async () => { const m = new MemoryStore(); const r = new SaveRepository(m); await r.save(freshState()); const old = m.current; m.failFlush = true; let failed = false; try { await r.save(play('cooperate', 'transfer', true, 4)); } catch (_) { failed = true; } check(failed); equal(m.current, old); } },
   { id: 'T22', category: '异常', name: '读失败向调用者报告', run: async () => { const m = new MemoryStore(); m.failRead = true; let failed = false; try { await new SaveRepository(m).load(); } catch (_) { failed = true; } check(failed); } },
   { id: 'T23', category: '边界', name: '独立仓库实例恢复同一存储进度', run: async () => { const m = new MemoryStore(); await new SaveRepository(m).save(play('cooperate', 'transfer', true, 8)); const loaded = await new SaveRepository(m).load(); check(loaded.state.events.length === 8 && loaded.state.clues.length === 5); } },
-  { id: 'T24', category: '边界', name: '被篡改的派生结局不能恢复', run: async () => { const s = play('cooperate', 'theft'); s.ending = 'truth'; rejectsDecode(encode(s)); } }
+  { id: 'T24', category: '边界', name: '被篡改的派生结局不能恢复', run: async () => { const s = play('cooperate', 'theft'); s.ending = 'truth'; rejectsDecode(encode(s)); } },
+  { id: 'V201', category: '边界', name: '未解锁事件只显示原因，不泄露结果', run: async () => { const e = new GameEngine(); const item = EVENTS[1]; equal(e.eventDescription(freshState(), item), e.reason(freshState(), item)); check(e.eventDescription(freshState(), item) !== item.text); } },
+  { id: 'V202', category: '正常', name: '已解锁未调查时仍隐藏结果，完成后显示', run: async () => { const e = new GameEngine(); const item = EVENTS[0]; const s = freshState(); check(e.eventDescription(s, item) !== item.text); equal(e.eventDescription(e.investigate(s, item.id).state, item), item.text); } },
+  { id: 'V203', category: '边界', name: '询问方式选择前不提前揭示分支后果', run: async () => { const e = new GameEngine(); const s = e.move(play('cooperate', 'transfer', true, 5), 'library').state; const item = EVENTS[5]; check(e.reason(s, item) === ''); check(e.eventDescription(s, item) !== item.text); check(!e.eventDescription(s, item).includes('回执')); } }
+
 ];

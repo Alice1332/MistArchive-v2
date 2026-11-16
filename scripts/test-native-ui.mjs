@@ -9,7 +9,7 @@ import { setTimeout as pause } from 'node:timers/promises';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const hdc = process.env.MIST_HDC || 'F:/DevEco Studio/sdk/default/openharmony/toolchains/hdc.exe';
 const device = process.env.MIST_DEVICE || '127.0.0.1:5555';
-const bundle = 'com.example.mistarchive';
+const bundle = process.env.MIST_BUNDLE || 'com.example.mistarchive';
 const evidence = path.join(root, 'evidence');
 const shots = path.join(evidence, 'screenshots');
 const layoutPath = path.join(evidence, 'native-layout.json');

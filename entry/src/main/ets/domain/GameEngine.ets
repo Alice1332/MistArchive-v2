@@ -26,6 +26,14 @@ export class GameEngine {
     if (e.id === 'e10' && s.clues.length !== CLUES.length) return '完整验证需要六条线索；当前缺少关键回执，可继续提交现有判断或重开。';
     return '';
   }
+  eventDescription(s: GameState, e: EventDef): string {
+    if (s.events.includes(e.id)) return e.text;
+    const blocked = this.reason(s, e);
+    if (blocked !== '') return blocked;
+    if (e.id === 'e06') return '选择询问方式，确认后将记录在本轮调查中。';
+    if (e.id === 'e11') return '根据已收集并核验的证据填写最终判断。';
+    return '开展本项调查后查看结果。';
+  }
   investigate(s: GameState, eventId: string, choice: string = ''): Transition {
     const e = EVENTS.find(v => v.id === eventId);
     if (e === undefined) return this.fail(s, '不存在的事件。');
