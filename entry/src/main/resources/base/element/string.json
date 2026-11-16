@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "校园档案线索推理"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "迷雾档案调查"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "迷雾档案"
+    }
+  ]
+}

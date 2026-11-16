@@ -1,0 +1,182 @@
+{
+  "executedAt": "2026-11-16T02:18:26.504Z",
+  "runtime": "v24.14.1",
+  "scope": "Host Node executes type-erased shared ArkTS domain and repository source; not HarmonyOS compilation or Preferences device evidence",
+  "results": [
+    {
+      "id": "T01",
+      "category": "正常",
+      "name": "新调查状态为空且位于门卫室",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T02",
+      "category": "边界",
+      "name": "未解锁场景不可进入",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T03",
+      "category": "异常",
+      "name": "越级事件和未知事件被拒绝",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T04",
+      "category": "边界",
+      "name": "重复调查不增量且输入状态不突变",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T05",
+      "category": "异常",
+      "name": "非法选择参数被拒绝",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T06",
+      "category": "正常",
+      "name": "合作路线取得六条线索并进入真相结局",
+      "pass": true,
+      "ms": 2
+    },
+    {
+      "id": "T07",
+      "category": "正常",
+      "name": "指责路线缺失回执并进入未竟结局",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T08",
+      "category": "边界",
+      "name": "有全套线索但未核验仍为未竟结局",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T09",
+      "category": "异常",
+      "name": "错误最终判断不能触发真相结局",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T10",
+      "category": "边界",
+      "name": "结局后禁止继续执行事件",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T11",
+      "category": "正常",
+      "name": "中途存档可往返恢复",
+      "pass": true,
+      "ms": 2
+    },
+    {
+      "id": "T12",
+      "category": "正常",
+      "name": "结束状态可往返恢复",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T13",
+      "category": "异常",
+      "name": "损坏JSON和校验值被拒绝",
+      "pass": true,
+      "ms": 1
+    },
+    {
+      "id": "T14",
+      "category": "异常",
+      "name": "不支持的存档版本被拒绝",
+      "pass": true,
+      "ms": 1
+    },
+    {
+      "id": "T15",
+      "category": "异常",
+      "name": "重算校验值也不能伪造线索",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T16",
+      "category": "异常",
+      "name": "非法历史顺序与非数组结构被拒绝",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T17",
+      "category": "正常",
+      "name": "空存储返回新调查",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T18",
+      "category": "正常",
+      "name": "主存档恢复与滚动备份",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T19",
+      "category": "异常",
+      "name": "主档损坏回退至有效备份",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T20",
+      "category": "异常",
+      "name": "双档损坏报错且原始内容不覆盖",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T21",
+      "category": "异常",
+      "name": "flush失败回滚当前缓存",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T22",
+      "category": "异常",
+      "name": "读失败向调用者报告",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T23",
+      "category": "边界",
+      "name": "独立仓库实例恢复同一存储进度",
+      "pass": true,
+      "ms": 0
+    },
+    {
+      "id": "T24",
+      "category": "边界",
+      "name": "被篡改的派生结局不能恢复",
+      "pass": true,
+      "ms": 1
+    }
+  ],
+  "restart": {
+    "pass": true,
+    "log": [
+      "WRITE events=8 clues=5",
+      "READ events=8 clues=5 source=current"
+    ]
+  }
+}

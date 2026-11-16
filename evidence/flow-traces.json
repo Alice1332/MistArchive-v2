@@ -1,0 +1,230 @@
+{
+  "truth": {
+    "sceneId": "gate",
+    "events": [
+      "e01",
+      "e02",
+      "e03",
+      "e04",
+      "e05",
+      "e06",
+      "e07",
+      "e08",
+      "e09",
+      "e10",
+      "e11",
+      "e12"
+    ],
+    "clues": [
+      "c01",
+      "c02",
+      "c03",
+      "c04",
+      "c05",
+      "c06"
+    ],
+    "history": [
+      {
+        "eventId": "e01",
+        "choice": ""
+      },
+      {
+        "eventId": "e02",
+        "choice": ""
+      },
+      {
+        "eventId": "e03",
+        "choice": ""
+      },
+      {
+        "eventId": "e04",
+        "choice": ""
+      },
+      {
+        "eventId": "e05",
+        "choice": ""
+      },
+      {
+        "eventId": "e06",
+        "choice": "cooperate"
+      },
+      {
+        "eventId": "e07",
+        "choice": ""
+      },
+      {
+        "eventId": "e08",
+        "choice": ""
+      },
+      {
+        "eventId": "e09",
+        "choice": ""
+      },
+      {
+        "eventId": "e10",
+        "choice": ""
+      },
+      {
+        "eventId": "e11",
+        "choice": "transfer"
+      },
+      {
+        "eventId": "e12",
+        "choice": ""
+      }
+    ],
+    "cooperation": "cooperate",
+    "suspect": "transfer",
+    "ending": "truth"
+  },
+  "rush": {
+    "sceneId": "gate",
+    "events": [
+      "e01",
+      "e02",
+      "e03",
+      "e04",
+      "e05",
+      "e06",
+      "e07",
+      "e08",
+      "e09",
+      "e11",
+      "e12"
+    ],
+    "clues": [
+      "c01",
+      "c02",
+      "c03",
+      "c05",
+      "c06"
+    ],
+    "history": [
+      {
+        "eventId": "e01",
+        "choice": ""
+      },
+      {
+        "eventId": "e02",
+        "choice": ""
+      },
+      {
+        "eventId": "e03",
+        "choice": ""
+      },
+      {
+        "eventId": "e04",
+        "choice": ""
+      },
+      {
+        "eventId": "e05",
+        "choice": ""
+      },
+      {
+        "eventId": "e06",
+        "choice": "accuse"
+      },
+      {
+        "eventId": "e07",
+        "choice": ""
+      },
+      {
+        "eventId": "e08",
+        "choice": ""
+      },
+      {
+        "eventId": "e09",
+        "choice": ""
+      },
+      {
+        "eventId": "e11",
+        "choice": "transfer"
+      },
+      {
+        "eventId": "e12",
+        "choice": ""
+      }
+    ],
+    "cooperation": "accuse",
+    "suspect": "transfer",
+    "ending": "rush"
+  },
+  "wrongJudgment": {
+    "sceneId": "gate",
+    "events": [
+      "e01",
+      "e02",
+      "e03",
+      "e04",
+      "e05",
+      "e06",
+      "e07",
+      "e08",
+      "e09",
+      "e10",
+      "e11",
+      "e12"
+    ],
+    "clues": [
+      "c01",
+      "c02",
+      "c03",
+      "c04",
+      "c05",
+      "c06"
+    ],
+    "history": [
+      {
+        "eventId": "e01",
+        "choice": ""
+      },
+      {
+        "eventId": "e02",
+        "choice": ""
+      },
+      {
+        "eventId": "e03",
+        "choice": ""
+      },
+      {
+        "eventId": "e04",
+        "choice": ""
+      },
+      {
+        "eventId": "e05",
+        "choice": ""
+      },
+      {
+        "eventId": "e06",
+        "choice": "cooperate"
+      },
+      {
+        "eventId": "e07",
+        "choice": ""
+      },
+      {
+        "eventId": "e08",
+        "choice": ""
+      },
+      {
+        "eventId": "e09",
+        "choice": ""
+      },
+      {
+        "eventId": "e10",
+        "choice": ""
+      },
+      {
+        "eventId": "e11",
+        "choice": "theft"
+      },
+      {
+        "eventId": "e12",
+        "choice": ""
+      }
+    ],
+    "cooperation": "cooperate",
+    "suspect": "theft",
+    "ending": "rush"
+  }
+}
